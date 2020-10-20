@@ -33,7 +33,7 @@ int main( int argc, char** argv )
  Mat carBlurred;
  GaussianBlur(gray_image,23,carBlurred);
 
- imwrite( "blur.jpg", carBlurred );
+ imwrite( "sharp.jpg", carBlurred );
 
  return 0;
 }
@@ -43,22 +43,15 @@ void GaussianBlur(cv::Mat &input, int size, cv::Mat &blurredOutput)
 	// intialise the output using the input
 	blurredOutput.create(input.size(), input.type());
 
-	// create the Gaussian kernel in 1D 
-	cv::Mat kX = cv::getGaussianKernel(size, -1);
-	cv::Mat kY = cv::getGaussianKernel(size, -1);
+    int m[3][3] = {{0, -1, 0}, {-1, 5, -1}, {0, -1, 0}};
+    cv::Mat kernel = (Mat_<int>(3,3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);
 	
-	// make it 2D multiply one by the transpose of the other
-	cv::Mat kernel = kX * kY.t();
-
-	//CREATING A DIFFERENT IMAGE kernel WILL BE NEEDED
-	//TO PERFORM OPERATIONS OTHER THAN GUASSIAN BLUR!!!
-
 	// we need to create a padded version of the input
 	// or there will be border effects
 	int kernelRadiusX = ( kernel.size[0] - 1 ) / 2;
 	int kernelRadiusY = ( kernel.size[1] - 1 ) / 2;
 
-       // SET KERNEL VALUES
+    // SET KERNEL VALUES
 	for( int m = -kernelRadiusX; m <= kernelRadiusX; m++ ) {
 	  for( int n = -kernelRadiusY; n <= kernelRadiusY; n++ )
            kernel.at<double>(m+ kernelRadiusX, n+ kernelRadiusY) = (double) 1.0/(size*size);
