@@ -13,6 +13,7 @@ void GaussianBlur(
 
 void SubImages(cv::Mat &image1, cv::Mat &image2, cv::Mat &output);
 void AddImages(cv::Mat &image1, cv::Mat &image2, cv::Mat &output);
+void Sharpen(cv::Mat &input, cv::Mat &sharpenedOutput);
 
 int main( int argc, char** argv )
 {
@@ -29,20 +30,25 @@ int main( int argc, char** argv )
    return -1;
  }
 
- // CONVERT COLOUR, BLUR AND SAVE
- Mat gray_image;
- cvtColor( image, gray_image, CV_BGR2GRAY );
-
- Mat carBlurred;
- GaussianBlur(gray_image,23,carBlurred);
-
- Mat doubleImage;
- cv::add(gray_image, gray_image, doubleImage);
- Mat outputImage;
- cv::subtract(doubleImage, carBlurred, outputImage);
- imwrite( "blur.jpg", outputImage );
-
+ Mat sharpenedOutput;
+ Sharpen(image, sharpenedOutput);
+ imwrite( "sharped.jpg", sharpenedOutput);
+ 
  return 0;
+}
+
+void Sharpen(cv::Mat &input, cv::Mat &sharpenedOutput) {
+  Mat gray_image;
+  cvtColor( input, gray_image, CV_BGR2GRAY );
+
+  Mat blurred_image;
+  GaussianBlur(gray_image,12, blurred_image);
+
+  Mat originalMinusBlurred;
+  cv::subtract(gray_image, blurred_image, originalMinusBlurred);
+  
+  cv::add(gray_image, originalMinusBlurred, sharpenedOutput);
+  sharpenedOutput = sharpenedOutput * 0.8;
 }
 
 void GaussianBlur(cv::Mat &input, int size, cv::Mat &blurredOutput)
