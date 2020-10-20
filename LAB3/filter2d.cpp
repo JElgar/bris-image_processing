@@ -11,6 +11,9 @@ void GaussianBlur(
 	int size,
 	cv::Mat &blurredOutput);
 
+void SubImages(cv::Mat &image1, cv::Mat &image2, cv::Mat &output);
+void AddImages(cv::Mat &image1, cv::Mat &image2, cv::Mat &output);
+
 int main( int argc, char** argv )
 {
 
@@ -33,7 +36,12 @@ int main( int argc, char** argv )
  Mat carBlurred;
  GaussianBlur(gray_image,23,carBlurred);
 
- imwrite( "blur.jpg", carBlurred );
+ Mat doubleImage;
+ AddImages(gray_image, gray_image, doubleImage);
+ Mat outputImage;
+ SubImages(doubleImage, carBlurred, outputImage);
+
+ imwrite( "blur.jpg", outputImage );
 
  return 0;
 }
@@ -96,6 +104,30 @@ void GaussianBlur(cv::Mat &input, int size, cv::Mat &blurredOutput)
 			}
 			// set the output value as the sum of the convolution
 			blurredOutput.at<uchar>(i, j) = (uchar) sum;
+		}
+	}
+}
+	
+
+//Subtract image2 from image1
+void SubImages(cv::Mat &image1, cv::Mat &image2, cv::Mat &output) {
+  output.create(image1.size(), image1.type());
+  for ( int i = 0; i < image2.rows; i++ )
+	{	
+		for( int j = 0; j < image2.cols; j++ )
+		{
+			output.at<uchar>(i, j) = image1.at<uchar>(i, j) - image2.at<uchar>(i, j);
+		}
+	}
+}
+
+void AddImages(cv::Mat &image1, cv::Mat &image2, cv::Mat &output) {
+  output.create(image1.size(), image1.type());
+  for ( int i = 0; i < image2.rows; i++ )
+	{	
+		for( int j = 0; j < image2.cols; j++ )
+		{
+			output.at<uchar>(i, j) = image1.at<uchar>(i, j) + image2.at<uchar>(i, j);
 		}
 	}
 }

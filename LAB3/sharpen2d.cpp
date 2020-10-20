@@ -26,13 +26,11 @@ int main( int argc, char** argv )
    return -1;
  }
 
- // CONVERT COLOUR, BLUR AND SAVE
- Mat gray_image;
- cvtColor( image, gray_image, CV_BGR2GRAY );
-
+ // sharpen
  Mat carBlurred;
- GaussianBlur(gray_image,23,carBlurred);
+ GaussianBlur(image,23,carBlurred);
 
+ // save
  imwrite( "sharp.jpg", carBlurred );
 
  return 0;
@@ -43,11 +41,12 @@ void GaussianBlur(cv::Mat &input, int size, cv::Mat &blurredOutput)
 	// intialise the output using the input
 	blurredOutput.create(input.size(), input.type());
 
-    int m[3][3] = {{0, -1, 0}, {-1, 5, -1}, {0, -1, 0}};
     cv::Mat kernel = (Mat_<int>(3,3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);
 	
 	// we need to create a padded version of the input
 	// or there will be border effects
+    std::cout << kernel.size[0];
+    std::cout << kernel.size[1];
 	int kernelRadiusX = ( kernel.size[0] - 1 ) / 2;
 	int kernelRadiusY = ( kernel.size[1] - 1 ) / 2;
 
