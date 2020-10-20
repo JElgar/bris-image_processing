@@ -1,0 +1,7 @@
+Log created: 2020-10-13T15:17:54.596361000Z
+Process ID:  115802 (0x1c45a)
+Parent PID:  1407 (0x57f)
+Executable:  /usr/lib/virtualbox/VBoxSVC
+Arg[0]: /usr/lib/virtualbox/VBoxSVC
+Arg[1]: --auto-shutdown
+AddRef: illegal refcnt=3221225469 state=2
