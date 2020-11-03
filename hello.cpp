@@ -22,7 +22,7 @@ int main() {
   
   //draw white text HelloOpenCV!
   putText(image, "HelloOpenCV!", Point(70, 70),
-		FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(255), 1, CV_AA);
+		FONT_HERSHEY_SIMPLEX, 0.8, cvScalar(255), 1, CV_AA);
 
   //save image to file
   imwrite("myimage.jpg", image);

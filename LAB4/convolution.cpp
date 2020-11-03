@@ -39,6 +39,10 @@ int main( int argc, char** argv )
  return 0;
 }
 
+
+void sorbel(cv::Mat &image) {
+}
+
 void GaussianBlur(cv::Mat &input, int size, cv::Mat &blurredOutput)
 {
 	// intialise the output using the input
